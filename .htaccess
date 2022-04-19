@@ -1,0 +1,26 @@
+AddDefaultCharset UTF-8
+
+DirectoryIndex index.php
+
+Options -Indexes
+
+ErrorDocument 404 http://mikhailwebservice.ru/error404
+ErrorDocument 403 http://mikhailwebservice.ru/error403
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+RewriteCond %{ENV:REDIRECT_FINISH} !^$
+RewriteRule ^ - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)\.php$ $1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [E=FINISH:1,L]
+</IfModule>
